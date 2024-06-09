@@ -1,7 +1,18 @@
 import { NavLink } from "react-router-dom";
+import useAuth from "../../hooks/UseAuth";
 export default function NavBar() {
+  const { loggedOut } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      const result = await loggedOut();
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
-    <nav className="flex justify-center py-5 shadow font-semibold">
+    <nav className="flex justify-center py-5 shadow font-semibold mb-5">
       <ul className="flex gap-8">
         <li>
           <NavLink
@@ -28,7 +39,7 @@ export default function NavBar() {
           </NavLink>
         </li>
         <li>
-          <button>Sign Out</button>
+          <button onClick={handleSignOut}>Sign Out</button>
         </li>
       </ul>
     </nav>
