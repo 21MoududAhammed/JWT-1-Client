@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import useAuth from "../../hooks/UseAuth";
 export default function NavBar() {
-  const { loggedOut } = useAuth();
-
+  const { loggedOut, isLoggedIn } = useAuth();
+  
+  //  to sign out
   const handleSignOut = async () => {
     try {
       const result = await loggedOut();
@@ -11,6 +12,7 @@ export default function NavBar() {
       console.log(err);
     }
   };
+
   return (
     <nav className="flex justify-center py-5 shadow font-semibold mb-5">
       <ul className="flex gap-8">
@@ -22,25 +24,29 @@ export default function NavBar() {
             Home
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => (isActive ? "text-blue-600" : "")}
-            to="/sign-in"
-          >
-            Sign In
-          </NavLink>
-        </li>
-        <li>
+        {!isLoggedIn && (
+          <li>
+            <NavLink
+              className={({ isActive }) => (isActive ? "text-blue-600" : "")}
+              to="/sign-in"
+            >
+              Sign In
+            </NavLink>
+          </li>
+        )}
+        {/* <li>
           <NavLink
             className={({ isActive }) => (isActive ? "text-blue-600" : "")}
             to="/sign-up"
           >
             Sign UP
           </NavLink>
-        </li>
-        <li>
-          <button onClick={handleSignOut}>Sign Out</button>
-        </li>
+        </li> */}
+        {isLoggedIn && (
+          <li>
+            <button onClick={handleSignOut}>Sign Out</button>
+          </li>
+        )}
       </ul>
     </nav>
   );

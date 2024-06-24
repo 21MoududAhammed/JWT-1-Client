@@ -1,12 +1,16 @@
 import { useState } from "react";
 import useAuth from "../../hooks/UseAuth";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
   });
+  const location = useLocation();
+  const from = location?.state?.from?.pathname;
+  const navigate = useNavigate();
+  
 
   const { loggedInWithEmailAndPassword } = useAuth();
 
@@ -19,6 +23,7 @@ export default function SignIn() {
       );
       const user = await result.user;
       console.log(user);
+      navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
     }
